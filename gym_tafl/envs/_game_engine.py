@@ -17,6 +17,7 @@ class GameEngine:
         # tile values
         self.board = variant_config['VARIANT'].get('board').split(',')
         self.GAME_OVER_REWARD = 100
+        self.KING_ESCAPED_REASON = "Escaped"
         self.MAX_REWARD = self.GAME_OVER_REWARD
         self.MAX_MOVES = variant_config['VARIANT'].getint('max_moves') - 1
 
@@ -190,18 +191,19 @@ class GameEngine:
             'game_over': False,
             'move': position_as_str((fi, fj), board.shape[0]).upper() + '-' + position_as_str((ti, tj),
                                                                                               board.shape[0]).upper(),
-            'reward': 0
+            'reason': None
         }
         # update board and piece
         board[ti, tj] = board[fi, fj]
         board[fi, fj] = THRONE if not self.no_throne and on_throne_arr(board, (fi, fj)) else EMPTY
         # check if king has escaped
+        #EDIT: Changed info['reward'] to info['winner'] to be relevant to our use case
         if board[ti, tj] == KING and self.edge_escape and on_edge_arr(board, (ti, tj)):
             info['game_over'] = True
-            info['reward'] += self.GAME_OVER_REWARD
+            info['winner'] += DEF
         elif board[ti, tj] == KING and (not self.edge_escape) and on_corner_arr(board, (ti, tj)):
             info['game_over'] = True
-            info['reward'] += self.GAME_OVER_REWARD
+            info['winner'] += DEF
         # process captures
         to_remove = self.process_captures(board, (ti, tj))
         if len(to_remove) == 0:
@@ -211,12 +213,10 @@ class GameEngine:
         for (i, j) in to_remove:
             if board[i, j] == KING:
                 info['game_over'] = True
-                info['reward'] += 100
+                info['winner'] = ATK
             board[i, j] = THRONE if on_throne_arr(board, (i, j)) else EMPTY
             info['move'] += 'x' + position_as_str((i, j), board.shape[0]).upper()
-        info['reward'] += self.board_value(board)
         # normalize rewards in [-1, 1]
-        info['reward'] /= self.MAX_REWARD
         return info
 
     def process_captures(self, board: np.array, position: Tuple[int, int]) -> List[Tuple[int, int]]:
@@ -332,4 +332,5 @@ class GameEngine:
             move = random.choice(moves)
             #Apply the move
             self.apply_move(board,decimal_to_space(move,self.n_rows,self.n_cols))
+            #if 
         return board

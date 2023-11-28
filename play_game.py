@@ -12,3 +12,5 @@ if __name__ == '__main__':
     game.apply_move(board,decimal_to_space(moves[0],game.n_rows,game.n_cols))
     print(board)
     print(game.get_random_state())
+
+    # while not game.info['game_over']:
