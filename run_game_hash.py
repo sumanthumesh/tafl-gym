@@ -1,30 +1,21 @@
 from gym_tafl.envs._game_engine import *
 import neat
 
-
 state_table = dict()
-gen = 0
 
 
 def eval_genomes(genomes, config):
-    """
-    runs the simulation of the current population of
-    birds and sets their fitness based on the distance they
-    reach in the game.
-    """
-    gen += 1
-
-    # start by creating lists holding the genome itself, the
-    # neural network associated with the genome and the
-    # bird object that uses that network to play
     nets = []
     ge = []
+    inputs = []
     for genome_id, genome in genomes:
         genome.fitness = 0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
         nets.append(net)
         ge.append(genome)
-
+        for i in inputs:
+            output = net.activate(i) # this should take in one input tuple
+            genome.fitness += 0 # idk
     return
 
 
