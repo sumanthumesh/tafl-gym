@@ -10,10 +10,10 @@ class Player():
     game: GameEngine object for this player
     role: 1 if this player is an attacker, 0 otherwise
     """
-    def __init__(self, epsilon, net, game, role):
-        self.epsilon = epsilon
+    def __init__(self, net, game, epsilon=0.0, role=-1):
         self.net = net
         self.game = game
+        self.epsilon = epsilon
         self.role = role
 
     def get_role(self):
