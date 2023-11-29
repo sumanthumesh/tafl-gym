@@ -17,6 +17,7 @@ class HashTournament():
 
     def run_tournament(self, players, config):
         # round robin tourney
+        # res = self.run_game(players[0], players[1], config)
         for idxA, playerA in enumerate(players):
             for idxB, playerB in enumerate(players[idxA + 1:]):
                 #don't let players play against themselves
@@ -179,10 +180,12 @@ class HashTournament():
                 #Check the value that this new temp_board state gets from our genome
                 padded_moves = self.pad_prev_moves(prev_moves,8)
                 net_inp = temp_board.flatten().tolist() + padded_moves + [player]
-                # print(f"{step} {idx}")
-                # print(f"{temp_board}")
-                # print(f"{padded_moves}")
-                # print(f"{player}\n")
+
+                if (len(net_inp)) < 58:
+                    print(f"{step} {idx}")
+                    print(f"{temp_board}")
+                    print(f"{padded_moves}")
+                    print(f"{player}\n")
                 temp_value = net.activate(net_inp)
                 #Update best move and value
                 if temp_value[0] > best_value[0]:
@@ -208,50 +211,92 @@ class HashTournament():
         #Check endgame scenario
         #Consolidate the results
         if info.get('game_over') == False:
-            inc = [0,0,0]
+            inc = [0,1,0]
         elif info.get('winner') == ATK:
             inc = [1,0,0]
         elif info.get('winner') == DEF:
             inc = [0,0,1]
         elif info.get('winner') == DRAW:
             inc = [0,1,0]
+
         #Go through each and every state we encountered during the game and apply the correct increments
         new_board = np.zeros((game.n_rows,game.n_cols)) 
         game.fill_board(new_board)
+        repeated = 0
+        new = 0
         for idx,move in enumerate(prev_moves):
             player = ATK if idx%2==0 else DEF
             game.apply_move(new_board,decimal_to_space(move,game.n_rows,game.n_cols))
             #Create our flattened list that we will send as input to network
-            net_inp = new_board.flatten().tolist() + prev_moves[idx:idx+8] + [player]
+            net_inp = new_board.flatten().tolist() + self.pad_prev_moves(prev_moves[idx - 9:idx], 8) + [player]
+            # if len(net_inp) < 58:
+            #     print(len(prev_moves))
+            #     print("index", idx)
+
+            #     print(net_inp)
+            #     print(new_board.flatten().tolist())
+            #     print(prev_moves[idx:idx+8])
+            #     print([player])
+            #     exit()
+
+
             #Update in the hash table
             tup_net_inp = tuple(net_inp)
+            if tup_net_inp in self.state_table.keys():
+                repeated +=1 
+            else:
+                new +=1
+
             if tup_net_inp not in self.state_table.keys():
-                self.state_table[tuple(net_inp)] = inc
+                self.state_table[tuple(net_inp)] = inc.copy()
             else:
                 self.state_table[tuple(net_inp)][0] += inc[0]
                 self.state_table[tuple(net_inp)][1] += inc[1]
                 self.state_table[tuple(net_inp)][2] += inc[2]
         print(info)
 
-
 def eval_genomes(genomes, config):
     game = GameEngine('gym_tafl/variants/custom.ini')
 
-    players = []
     ge = []
     for id, genome in genomes:
         genome.fitness = 0
         ge.append(genome)
-        # players.append((id, Player(0.1, neat.nn.FeedForwardNetwork.create(genome, config), game, -1)))
         
     tournament = HashTournament(game)
     tournament_state = tournament.run_tournament(ge, config)
 
-    # for id, genome in genomes:
-    #     genome.fitness = [something]
-    
+
+    fit_vals = []
+    wins = [0,0,0]
+    bias_factor = 100.0
+    for genome in ge:
+        err = 0
+        for key, values in tournament.state_table.items():
+            # key is input of 58 floats, value is input of 3 values
+            net = neat.nn.FeedForwardNetwork.create(genome, config)
+            # print(len(key))
+            # print(key)
+            output = net.activate(key)
+            # print(values)            
+            val = (values[0]-values[2])*bias_factor/sum(values)
+            # print(output, val)
+            wins[0] += values[0]
+            wins[1] += values[1]
+            wins[2] += values[2]
+            err += (val - output[0])**2
+
+            # value = (values[0] - values[2]) / sum(values) if sum(values) != 0 else 0
+            # genome.fitness = (value - output[0]) ** 2
+        print(-err)
+        fit_vals.append(-err)
+        genome.fitness = -err
+    log_file.writelines(f"{sum(fit_vals)/len(fit_vals)}: {wins}\n")
+    print(f"AVG FIT VAL {sum(fit_vals)/len(fit_vals)}")
+    print(f"WINS {wins}")
     return
 
+log_file = open("log","w")
 
 def run(config_file):
     config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
@@ -266,9 +311,11 @@ def run(config_file):
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(5))
 
-    winner = p.run(eval_genomes, 100) # arbitrarily picking 100 generations for now
 
-    print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
+    winner = p.run(eval_genomes, 10) # arbitrarily picking 100 generations for now
+    log_file.close()
+
+    # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
     
     """ maybe mess around with this given time
 
