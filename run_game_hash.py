@@ -1,9 +1,10 @@
 from gym_tafl.envs._game_engine import *
-
 import neat
+
 
 state_table = dict()
 gen = 0
+
 
 def eval_genomes(genomes, config):
     """
@@ -19,11 +20,13 @@ def eval_genomes(genomes, config):
     nets = []
     ge = []
     for genome_id, genome in genomes:
-        genome.fitness = 0  # start with fitness level of 0
+        genome.fitness = 0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
+        nets.append(net)
         ge.append(genome)
 
     return
+
 
 def run_tournament():
     pass
@@ -93,6 +96,42 @@ def run_game(player1,player2):
             state_table[frozenset(net_inp)][1] += inc[1]
             state_table[frozenset(net_inp)][2] += inc[2]
 
+
+def run(config_file):
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                         config_file)
+    p = neat.Population(config)
+
+    # Report progress to console
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    p.add_reporter(neat.Checkpointer(5))
+
+    winner = p.run(eval_genomes, 100) # arbitrarily picking 100 generations for now
+
+    print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
+    
+    """ maybe mess around with this given time
+
+    # Shows output of the most fit genome against training data.
+    print('\nOutput:')
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    for xi, xo in zip(xor_inputs, xor_outputs):
+        output = winner_net.activate(xi)
+        print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
+
+    node_names = {-1: 'A', -2: 'B', 0: 'A XOR B'}
+    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.draw_net(config, winner, True, node_names=node_names, prune_unused=True)
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
+
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    p.run(eval_genomes, 10)
+
+    """
 
 if __name__ == '__main__':
     local_dir = os.path.dirname(__file__)
