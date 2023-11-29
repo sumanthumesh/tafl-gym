@@ -1,5 +1,5 @@
 import numpy as np
-from random import randint, choice
+from random import random, choice
 
 class Player():
     """
@@ -41,7 +41,7 @@ class Player():
         #get legal moves from engine
         moves = self.game.legal_moves(board, self.role)
         #make random choice with probability epsilon
-        if randint(0, 1) < self.epsilon:
+        if random() < self.epsilon:
             return choice(moves)
         
         #run the player's network on the successor from each action in order to find the best one

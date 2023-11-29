@@ -41,10 +41,10 @@ class PureTournament():
                 res = self.play_game(playerA, playerB)
                 # print(res)
                 self.update_scores(res, idxA, idxB)
-                # # print(f"Game: Player {idxB} VS {idxA}")
-                # res = self.play_game(playerB, playerA)
-                # # print(res)
-                # self.update_scores(res, idxB, idxA)
+                # print(f"Game: Player {idxB} VS {idxA}")
+                res = self.play_game(playerB, playerA)
+                # print(res)
+                self.update_scores(res, idxB, idxA)
                 
         tournament_stats = {
             'scores': self.player_scores,
@@ -149,17 +149,17 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(5))
+    # p.add_reporter(neat.Checkpointer(5))
 
-    # Run for up to 300 generations.
+    # Run for up to n generations.
     winner = p.run(eval_genomes, 100)
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
 
     # Show output of the most fit genome against training data.
-    # print('\nOutput:')
-    # winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
+    print('\nOutput:')
+    winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
 
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
