@@ -173,6 +173,8 @@ class HashTournament():
             #For every move, find the next state and check its value from our genome
             best_move = moves[0]
             best_value = [-100]
+            #Variable to store the value from network for each move we consider
+            all_vals = []
             for idx,move in enumerate(moves):
                 temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
                 temp_board = board.copy()
@@ -187,10 +189,15 @@ class HashTournament():
                     print(f"{padded_moves}")
                     print(f"{player}\n")
                 temp_value = net.activate(net_inp)
+                all_vals.append(temp_value)
+            #Find move with highest value if current player is attacker, else find move with least value
+            best_value = max(all_vals) if player == ATK else min(all_vals)
+            best_move = moves[all_vals.index(best_value)]
                 #Update best move and value
-                if temp_value[0] > best_value[0]:
-                    best_value = temp_value
-                    best_move = move
+                # if temp_value[0] > best_value[0]:
+                #     best_value = temp_value
+                #     best_move = move
+
             #Check if we have 3 fold repitition
             threefold = check_threefold_repetition_int(prev_moves,best_move,game.n_rows,game.n_cols)
             if threefold:
