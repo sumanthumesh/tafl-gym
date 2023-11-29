@@ -34,7 +34,7 @@ class Player():
         The chosen action as an int
         """
         #copy all but the oldest move from last_moves
-        last_moves_copy = [move for move in last_moves[1:]]
+        last_moves_copy = last_moves[1:]
         #if there are less than 8 last moves, insert -1 to get the correct size list
         while len(last_moves_copy) < 7:
             last_moves_copy.insert(0, -1)
@@ -52,19 +52,14 @@ class Player():
             currBoardCopy = np.copy(board)
             self.game.alt_apply_move(currBoardCopy, move)
 
-            #update the last_moves list with the current move being checked
-            last_moves_copy.append(move)
             #network input is 49 ints from current board state + 8 ints representing last moves + 1 int representing current role
-            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy)
+            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy[-7:] + [move])
             networkInput = np.append(networkInput, self.role)
             currScore = self.net.activate(networkInput)[0]
             
             if currScore > bestScore:
                 bestScore = currScore
                 bestMove = move
-
-            #remove current move from last moves list
-            last_moves_copy.pop(-1)
                 
         return bestMove
     

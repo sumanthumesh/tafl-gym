@@ -2,3 +2,4 @@
 gym_tafl.egg-info/*
 gym_tafl/envs/__pycache__/*
 __pycache__/
+neat-checkpoint-*
