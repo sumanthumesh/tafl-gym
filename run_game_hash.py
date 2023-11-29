@@ -189,7 +189,7 @@ class HashTournament():
                     best_value = temp_value
                     best_move = move
             #Check if we have 3 fold repitition
-            threefold = check_threefold_repetition_int(self.pad_prev_moves(prev_moves,8),best_move,game.n_rows,game.n_cols)
+            threefold = check_threefold_repetition_int(prev_moves,best_move,game.n_rows,game.n_cols)
             if threefold:
                 info['game_over'] = True
                 info['winner'] = DRAW

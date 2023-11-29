@@ -204,7 +204,7 @@ def check_threefold_repetition(last_moves: List[Tuple[int, int, int, int]], last
         return False
     else:
         return ((last_move == last_moves[4]) and
-                (last_move[2:] == last_moves[0][2:]) and
+                (last_move[3:] == last_moves[0][3:]) and
                 last_moves[7] == last_moves[3] and
                 last_moves[6] == last_moves[2] and
                 last_moves[5] == last_moves[1])
