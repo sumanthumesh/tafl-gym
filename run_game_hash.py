@@ -4,32 +4,19 @@ from gym_tafl.envs._game_engine import *
 from gym_tafl.players import Player
 import neat
 
-
 class HashTournament():
     """
     May the best viking chess bot win
     """
+
     def __init__(self, game, turn_limit=150, game_scores={'win': 1, 'draw':0, 'loss':-1}) -> None:
         self.game = game
         self.turn_limit = turn_limit
         self.game_scores = game_scores
-        self.mapping = {}
-
-    def update_scores(self, res, idx1, idx2):
-        if res == ATK:
-            self.attacker_win_count += 1
-            self.player_scores[idx1] += self.game_scores['win']
-            self.player_scores[idx2] += self.game_scores['loss']
-        elif res == DEF:
-            self.defender_win_count += 1
-            self.player_scores[idx1] += self.game_scores['loss']
-            self.player_scores[idx2] += self.game_scores['win']
-        else:
-            self.draw_count += 1
-            self.player_scores[idx1] += self.game_scores['draw']
-            self.player_scores[idx2] += self.game_scores['draw']
+        self.state_table = {}
 
     def run_tournament(self, players):
+        # round robin tourney
         for idxA, playerA in players:
             for idxB, playerB in players[idxA + 1:]:
                 #don't let players play against themselves
@@ -48,7 +35,6 @@ class HashTournament():
         Once the game ends, it increments a counter for each state to show if it is a win, loss or draw
         player1 is ATK and player2 is DEF
         '''
-        state_table = dict()
 
         #Intialize board
         board = np.zeros((self.game.n_rows, self.game.n_cols)) 
@@ -97,14 +83,16 @@ class HashTournament():
             prev_moves.append(best_move)
 
             #Apply the best move on the board
-            res = self.game.apply_move(board, decimal_to_space(best_move, self.game.n_rows, self.game.n_cols))
+            best_move_tuple = decimal_to_space(best_move, self.game.n_rows, self.game.n_cols)
+            res = self.game.apply_move(board, best_move_tuple)
             if res.get('game_over') == True:
                 num_steps = step
                 break
 
         #Check endgame scenario
-        end = self.game.check_endgame(prev_moves[-8:], best_move, player, step)
-        print(end)
+        end = self.game.check_endgame(prev_moves[-8:], best_move_tuple, player, step)
+        if end['winner'] != -1:
+            print(end)
         #Set the increment values [atk_win, draw, def_win]
         if end.get('winner') == ATK:
             inc = [1,0,0]
@@ -129,12 +117,12 @@ class HashTournament():
 
             #Update in the hash table
             tup_net_inp = tuple(net_inp)
-            if tup_net_inp not in state_table.keys():
-                state_table[tuple(net_inp)] = inc
+            if tup_net_inp not in self.state_table.keys():
+                self.state_table[tuple(net_inp)] = inc
             else:
-                state_table[tuple(net_inp)][0] += inc[0]
-                state_table[tuple(net_inp)][1] += inc[1]
-                state_table[tuple(net_inp)][2] += inc[2]
+                self.state_table[tuple(net_inp)][0] += inc[0]
+                self.state_table[tuple(net_inp)][1] += inc[1]
+                self.state_table[tuple(net_inp)][2] += inc[2]
         # print(state_table)
 
 
@@ -148,9 +136,10 @@ def eval_genomes(genomes, config):
         
     tournament = HashTournament(game)
     tournament_state = tournament.run_tournament(players)
-    
-    tournament.mapping
 
+    # for id, genome in genomes:
+    #     genome.fitness = [something]
+    
     return
 
 

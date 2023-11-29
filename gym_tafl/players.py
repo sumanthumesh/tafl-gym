@@ -40,9 +40,9 @@ class Player():
             last_moves_copy.insert(0, -1)
         #get legal moves from engine
         moves = self.game.legal_moves(board, self.role)
+        
         #make random choice with probability epsilon
-
-        if randint(0, 1) < self.epsilon:
+        if randint(0, 1) < self.epsilon: # not sure what the intended behavior of this is *
             return choice(moves)
         
         #run the player's network on the successor from each action in order to find the best one
@@ -54,7 +54,7 @@ class Player():
             self.game.alt_apply_move(currBoardCopy, move)
 
             #network input is 49 ints from current board state + 8 ints representing last moves + 1 int representing current role
-            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy + [move])
+            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy[-7:] + [move])
             networkInput = np.append(networkInput, self.role)
             currScore = self.net.activate(networkInput)[0]
             
