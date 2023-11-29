@@ -200,10 +200,10 @@ class GameEngine:
         #EDIT: Changed info['reward'] to info['winner'] to be relevant to our use case
         if board[ti, tj] == KING and self.edge_escape and on_edge_arr(board, (ti, tj)):
             info['game_over'] = True
-            info['winner'] += DEF
+            info['winner'] = DEF
         elif board[ti, tj] == KING and (not self.edge_escape) and on_corner_arr(board, (ti, tj)):
             info['game_over'] = True
-            info['winner'] += DEF
+            info['winner'] = DEF
         # process captures
         to_remove = self.process_captures(board, (ti, tj))
         if len(to_remove) == 0:

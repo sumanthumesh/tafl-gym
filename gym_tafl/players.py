@@ -16,6 +16,12 @@ class Player():
         self.game = game
         self.role = role
 
+    def get_role(self):
+        return self.role
+    
+    def set_role(self, role):
+        self.role = role
+
     def choose_move(self, board, last_moves) -> int:
         """
         Get the action taken by the player at the current state of the given game.
@@ -29,6 +35,9 @@ class Player():
         """
         #copy all but the oldest move from last_moves
         last_moves_copy = [move for move in last_moves[1:]]
+        #if there are less than 8 last moves, insert -1 to get the correct size list
+        while len(last_moves_copy) < 7:
+            last_moves_copy.insert(0, -1)
         #get legal moves from engine
         moves = self.game.legal_moves(board, self.role)
         #make random choice with probability epsilon
@@ -46,9 +55,10 @@ class Player():
             #update the last_moves list with the current move being checked
             last_moves_copy.append(move)
             #network input is 49 ints from current board state + 8 ints representing last moves + 1 int representing current role
-            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy, self.role)
-            currScore = self.net.activate(networkInput)
-
+            networkInput = np.append(currBoardCopy.flatten(), last_moves_copy)
+            networkInput = np.append(networkInput, self.role)
+            currScore = self.net.activate(networkInput)[0]
+            
             if currScore > bestScore:
                 bestScore = currScore
                 bestMove = move
