@@ -3,6 +3,30 @@ from gym_tafl.envs._game_engine import *
 import neat
 
 state_table = dict()
+gen = 0
+
+def eval_genomes(genomes, config):
+    """
+    runs the simulation of the current population of
+    birds and sets their fitness based on the distance they
+    reach in the game.
+    """
+    gen += 1
+
+    # start by creating lists holding the genome itself, the
+    # neural network associated with the genome and the
+    # bird object that uses that network to play
+    nets = []
+    ge = []
+    for genome_id, genome in genomes:
+        genome.fitness = 0  # start with fitness level of 0
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+        ge.append(genome)
+
+    return
+
+def run_tournament():
+    pass
 
 def run_game(player1,player2):
     '''
@@ -69,3 +93,9 @@ def run_game(player1,player2):
             state_table[frozenset(net_inp)][1] += inc[1]
             state_table[frozenset(net_inp)][2] += inc[2]
 
+
+if __name__ == '__main__':
+    local_dir = os.path.dirname(__file__)
+    config_path = os.path.join(local_dir, 'util/config.txt')
+    genomes = []
+    eval_genomes(genomes, config_path)
