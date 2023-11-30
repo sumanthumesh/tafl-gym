@@ -324,9 +324,10 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(10))
+    #checkpoint every 25 generations or 15 minutes - whichever happens first
+    p.add_reporter(neat.Checkpointer(50, 1800))
     
-    basic_player = p.run(eval_genomes, 5)
+    basic_player = p.run(eval_genomes, 2)
 
     # # Run for up to n generations.
     # surviving_player = p.run(eval_genomes, 100)
