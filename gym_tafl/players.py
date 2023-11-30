@@ -40,6 +40,9 @@ class Player():
             last_moves_copy.insert(0, -1)
         #get legal moves from engine
         moves = self.game.legal_moves(board, self.role)
+        #Idk why but there were 2 times where moves[0] threw index out of bounds... This is the temporary fix
+        if len(moves) == 0:
+            return None
         #make random choice with probability epsilon
         if random() < self.epsilon:
             return choice(moves)

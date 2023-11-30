@@ -90,13 +90,18 @@ class PureTournament():
 
         for turn in range(self.turn_limit):
             player = player1 if turn % 2 == 0 else player2
+            opponent = ATK if player == DEF else DEF
 
             move = player.choose_move(board, last_moves)
+            #This is temporary fix for when a player doesn't get any legal moves generated... IDK why this happens
+            #Game gets ended and opponent wins.
+            if move is None:
+                return {'winner': opponent, 'turns_played': turn + 1}
 
             #make the move and return winner if move wins game
             result = self.game.alt_apply_move(board, move)
             if result['game_over']:
-                return {'winner': result['winner'], 'turns_played': turn + 1}
+                return {'winner': player.get_role(), 'turns_played': turn + 1}
             
             #check for endgame. IDK if it's inefficient but last_moves are converted into space representation for this.
             result = self.game.check_endgame(
@@ -114,8 +119,8 @@ class PureTournament():
 
             #If opponent has no more legal moves, return current player as winner
             opponent = ATK if player == DEF else DEF
-            if self.game.legal_moves(board, opponent) == 0:
-                return player.get_role()
+            if len(self.game.legal_moves(board, opponent)) == 0:
+                return {'winner': player.get_role(), 'turns_played': turn + 1}
         #if 150 rounds pass, return draw
         #I think this won't trigger, since check_endgame also makes a check to see if max rounds are reached
         return {'winner': DRAW, 'turns_played': self.turn_limit}
@@ -285,49 +290,29 @@ def run(config_file):
     p = neat.Population(config)
 
     # Add a stdout reporter to show progress in the terminal.
-    p.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(10))
+    # p.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # p.add_reporter(stats)
+    # #checkpoint every 25 generations or 15 minutes - whichever happens first
+    # p.add_reporter(neat.Checkpointer(25, 900))
     
-    basic_player = p.run(eval_genomes, 5)
+    # p.run(eval_genomes, 1000)
 
-    # # Run for up to n generations.
-    # surviving_player = p.run(eval_genomes, 100)
-
-    # # Display the winning genome.
-    # print('\nBest genome:\n{!s}'.format(surviving_player))
-
-    # # Show output of the most fit genome against training data.
-    # print('\nOutput:')
-    # surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
-    # basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
-    # dump(surviving_net,open("best.pickle", "wb"))
-    
-    # print("= = = Gen 1 winner (A) VS Gen 100 winner (B) = = =")
-    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    # tournament.compare_2_individuals(basic_net, surviving_net)
-
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    # p.run(eval_genomes, 10)
-
-def run(config_file):
-    # Load configuration.
-    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                         config_file)
-
-    # Create the population, which is the top-level object for a NEAT run.
-    p = neat.Population(config)
-
+    # Found a small bug that caused the program to crash after 62 generations, so we use this checkpoint instead
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-470')
     # Add a stdout reporter to show progress in the terminal.
-    p.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    p.add_reporter(stats)
-    #checkpoint every 25 generations or 15 minutes - whichever happens first
-    p.add_reporter(neat.Checkpointer(50, 1800))
-    
-    basic_player = p.run(eval_genomes, 2)
+    # p.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # p.add_reporter(stats)
+    # #checkpoint every 25 generations or 15 minutes - whichever happens first
+    # p.add_reporter(neat.Checkpointer(25, 900))
+    # p.run(eval_genomes, 1000)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-10')
+    best_genome = p.run(eval_genomes, 1)
+    player1 = neat.nn.FeedForwardNetwork.create(best_genome, config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
+    best_genome = p.run(eval_genomes, 1)
+    player322 = neat.nn.FeedForwardNetwork.create(best_genome, config)
 
     # # Run for up to n generations.
     # surviving_player = p.run(eval_genomes, 100)
@@ -341,9 +326,9 @@ def run(config_file):
     # basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
     # dump(surviving_net,open("best.pickle", "wb"))
     
-    # print("= = = Gen 1 winner (A) VS Gen 100 winner (B) = = =")
-    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    # tournament.compare_2_individuals(basic_net, surviving_net)
+    print("= = = Gen 1 winner (A) VS Gen 322 winner (B) = = =")
+    tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    tournament.compare_2_individuals(player1, player322)
 
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
