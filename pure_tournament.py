@@ -9,11 +9,15 @@ from math import ceil
 class PureTournament():
     """
     Class that handles running tournaments between genome players
+    
+    bias_weights: tuple of 2 floats. First value is weight applied to each score for the attacking player, second is weight applied to each score for defending player.
+
     """
-    def __init__(self, game, turn_limit=150, game_scores={'win': 3, 'draw':1, 'loss':0}) -> None:
+    def __init__(self, game, turn_limit=150, game_scores={'win': 3, 'draw':1, 'loss':0}, bias_weights = {'atk': 1, 'def': 1}) -> None:
         self.game = game
         self.turn_limit = turn_limit
         self.game_scores = game_scores
+        self.bias_weights = bias_weights
         self.player_scores = []
         self.attacker_win_count = 0
         self.defender_win_count = 0
@@ -22,7 +26,11 @@ class PureTournament():
 
     def play_tournament(self, players) -> list[int]:
         """
-        Given list of genomes, run a round robin tournament and update each genome's fitness to be its score in the tournament
+        Given list of players, run a round robin tournament and update each players's fitness to be its score in the tournament
+
+        Parameters
+        ----------
+        players: list of players
         """
         #create players from list of genomes. Each player starts as neither attacker nor defender
         # self.players = [Player(epsilon, neat.nn.FeedForwardNetwork.create(genome, config), self.game, -1) for _, genome in genomes]
@@ -56,18 +64,21 @@ class PureTournament():
         return tournament_stats
         
     def update_scores(self, res, idx1, idx2):
+        """
+        update scores using result. idx1 is attacker, idx2 is defender
+        """
         if res['winner'] == ATK:
             self.attacker_win_count += 1
-            self.player_scores[idx1] += self.game_scores['win']
-            self.player_scores[idx2] += self.game_scores['loss']
+            self.player_scores[idx1] += self.bias_weights['atk']*self.game_scores['win']
+            self.player_scores[idx2] += self.bias_weights['def']*self.game_scores['loss']
         elif res['winner'] == DEF:
             self.defender_win_count += 1
-            self.player_scores[idx1] += self.game_scores['loss']
-            self.player_scores[idx2] += self.game_scores['win']
+            self.player_scores[idx1] += self.bias_weights['atk']*self.game_scores['loss']
+            self.player_scores[idx2] += self.bias_weights['def']*self.game_scores['win']
         else:
             self.draw_count += 1
-            self.player_scores[idx1] += self.game_scores['draw']
-            self.player_scores[idx2] += self.game_scores['draw']
+            self.player_scores[idx1] += self.bias_weights['atk']*self.game_scores['draw']
+            self.player_scores[idx2] += self.bias_weights['def']*self.game_scores['draw']
 
     def play_game(self, player1, player2) -> dict:
         """
@@ -268,7 +279,7 @@ def eval_genomes(genomes, config):
     for i, genome_tuple in enumerate(genomes):
         players.append((i, Player(neat.nn.FeedForwardNetwork.create(genome_tuple[1], config), game, epsilon=0.1)))
     
-    tournament = PureTournament(game=game)
+    tournament = PureTournament(game=game, bias_weights={'atk':1.5, 'def':1})
     
     tournament_stats = tournament.play_tournament(players)
     
@@ -288,31 +299,34 @@ def run(config_file):
 
     # Create the population, which is the top-level object for a NEAT run.
     #NOTE: use this to start population from scratch!!!
-    p = neat.Population(config)
+    # p = neat.Population(config)
+
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
 
     #NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
     # p.add_reporter(neat.StdOutReporter(True))
     # stats = neat.StatisticsReporter()
     # p.add_reporter(stats)
-    # #checkpoint every 25 generations or 15 minutes - whichever happens first
-    # p.add_reporter(neat.Checkpointer(25, 900))
+    # #checkpoint every 25 generations or 20 minutes - whichever happens first
+    # p.add_reporter(neat.Checkpointer(25, 1200))
+    
     # p.run(eval_genomes, 1000)
 
     #NOTE: This is code for loading 2 checkpoints and getting their best genomes to compete...
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
 
-    #NOTE: Use this line to load a certain checkpoint to be one of the 2 players
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-10')
-    best_genome = p.run(eval_genomes, 1)
-    player1 = neat.nn.FeedForwardNetwork.create(best_genome, config)
+    # NOTE: Use this line to load a certain checkpoint to be one of the 2 players
     p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
-    best_genome = p.run(eval_genomes, 1)
-    player322 = neat.nn.FeedForwardNetwork.create(best_genome, config)
+    genome322 = p.run(eval_genomes, 1)
+    player322 = neat.nn.FeedForwardNetwork.create(genome322, config)
+    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-553')
+    genome553 = p.run(eval_genomes, 1)
+    player553 = neat.nn.FeedForwardNetwork.create(genome553, config)
     
-    print("= = = Gen 1 winner (A) VS Gen 322 winner (B) = = =")
+    print("= = = Gen 322 winner (A) VS Gen 553 winner (B) = = =")
     tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    tournament.compare_2_individuals(player1, player322)
+    tournament.compare_2_individuals(player322, player553)
 
     #NOTE: Ignore this
     # # Display the winning genome.
