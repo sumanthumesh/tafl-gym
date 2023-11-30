@@ -287,51 +287,40 @@ def run(config_file):
                          config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
+    #NOTE: use this to start population from scratch!!!
     p = neat.Population(config)
 
+    #NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
     # p.add_reporter(neat.StdOutReporter(True))
     # stats = neat.StatisticsReporter()
     # p.add_reporter(stats)
     # #checkpoint every 25 generations or 15 minutes - whichever happens first
     # p.add_reporter(neat.Checkpointer(25, 900))
-    
     # p.run(eval_genomes, 1000)
 
-    # Found a small bug that caused the program to crash after 62 generations, so we use this checkpoint instead
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-470')
-    # Add a stdout reporter to show progress in the terminal.
-    # p.add_reporter(neat.StdOutReporter(True))
-    # stats = neat.StatisticsReporter()
-    # p.add_reporter(stats)
-    # #checkpoint every 25 generations or 15 minutes - whichever happens first
-    # p.add_reporter(neat.Checkpointer(25, 900))
-    # p.run(eval_genomes, 1000)
+    #NOTE: This is code for loading 2 checkpoints and getting their best genomes to compete...
+    # With how neat is set up you need to run a single generation to get the best genome before having them compete
+
+    #NOTE: Use this line to load a certain checkpoint to be one of the 2 players
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-10')
     best_genome = p.run(eval_genomes, 1)
     player1 = neat.nn.FeedForwardNetwork.create(best_genome, config)
     p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
     best_genome = p.run(eval_genomes, 1)
     player322 = neat.nn.FeedForwardNetwork.create(best_genome, config)
-
-    # # Run for up to n generations.
-    # surviving_player = p.run(eval_genomes, 100)
-
-    # # Display the winning genome.
-    # print('\nBest genome:\n{!s}'.format(surviving_player))
-
-    # # Show output of the most fit genome against training data.
-    # print('\nOutput:')
-    # surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
-    # basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
-    # dump(surviving_net,open("best.pickle", "wb"))
     
     print("= = = Gen 1 winner (A) VS Gen 322 winner (B) = = =")
     tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
     tournament.compare_2_individuals(player1, player322)
 
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
-    # p.run(eval_genomes, 10)
+    #NOTE: Ignore this
+    # # Display the winning genome.
+    # print('\nBest genome:\n{!s}'.format(surviving_player))
+    # # Show output of the most fit genome against training data.
+    # print('\nOutput:')
+    # surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
+    # dump(surviving_net,open("best.pickle", "wb"))
 
 
 if __name__ == '__main__':
