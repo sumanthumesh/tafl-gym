@@ -22,7 +22,7 @@ class Player():
     def set_role(self, role):
         self.role = role
 
-    def choose_move(self, board, last_moves):
+    def choose_move(self, board, last_moves) -> int:
         """
         Get the action taken by the player at the current state of the given game.
     

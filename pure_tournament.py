@@ -10,7 +10,7 @@ class PureTournament():
     """
     Class that handles running tournaments between genome players
     """
-    def __init__(self, game, turn_limit=150, game_scores={'win': 3, 'draw':1, 'loss':0}):
+    def __init__(self, game, turn_limit=150, game_scores={'win': 3, 'draw':1, 'loss':0}) -> None:
         self.game = game
         self.turn_limit = turn_limit
         self.game_scores = game_scores
@@ -20,7 +20,7 @@ class PureTournament():
         self.draw_count = 0
 
 
-    def play_tournament(self, players):
+    def play_tournament(self, players) -> list[int]:
         """
         Given list of genomes, run a round robin tournament and update each genome's fitness to be its score in the tournament
         """
@@ -69,7 +69,7 @@ class PureTournament():
             self.player_scores[idx1] += self.game_scores['draw']
             self.player_scores[idx2] += self.game_scores['draw']
 
-    def play_game(self, player1, player2):
+    def play_game(self, player1, player2) -> dict:
         """
         Play game between player1 and player2. Player1 is the attacker and player2 is the defender.
 
@@ -120,7 +120,7 @@ class PureTournament():
         #I think this won't trigger, since check_endgame also makes a check to see if max rounds are reached
         return {'winner': DRAW, 'turns_played': self.turn_limit}
     
-    def play_n_matches(self, playerA, playerB, n):
+    def play_n_matches(self, playerA, playerB, n) -> dict:
         """
         Play n matches between playerA and playerB.
         Half of the matches will have playerA as attacker, and half will have playerB attack.
@@ -212,7 +212,7 @@ class PureTournament():
         
         return stats
     
-    def compare_2_individuals(self, netA, netB, n=100, epsilon=0.05):
+    def compare_2_individuals(self, netA, netB, n=100, epsilon=0.05) -> None:
         """
         Make players from 2 input networks, play n matches and print results
         """
