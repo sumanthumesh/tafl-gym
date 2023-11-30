@@ -170,16 +170,15 @@ class PureTournament():
         for i in range(ceil(n/2)):
             res = self.play_game(playerA, playerB)
             #record match winner and turns played (we take average later)
-            match res['winner']:
-                case 1:
-                    stats['A_atk']['A_wins']['count'] += 1
-                    stats['A_atk']['A_wins']['avg_turns_played'] += res['turns_played']
-                case 0:
-                    stats['A_atk']['B_wins']['count'] += 1
-                    stats['A_atk']['B_wins']['avg_turns_played'] += res['turns_played']
-                case -1:
-                    stats['A_atk']['draw']['count'] += 1
-                    stats['A_atk']['draw']['avg_turns_played'] += res['turns_played']
+            if res['winner'] == 1:
+                stats['A_atk']['A_wins']['count'] += 1
+                stats['A_atk']['A_wins']['avg_turns_played'] += res['turns_played']
+            elif res['winner'] == 0:
+                stats['A_atk']['B_wins']['count'] += 1
+                stats['A_atk']['B_wins']['avg_turns_played'] += res['turns_played']
+            else:
+                stats['A_atk']['draw']['count'] += 1
+                stats['A_atk']['draw']['avg_turns_played'] += res['turns_played']
                     
         #divide total turns by number of games to get average turns for each category
         if stats['A_atk']['A_wins']['avg_turns_played'] > 0:
@@ -193,16 +192,15 @@ class PureTournament():
         for i in range(n//2):
             res = self.play_game(playerB, playerA)
             #record match winner and turns played (we take average later)
-            match res['winner']:
-                case 1:
-                    stats['B_atk']['B_wins']['count'] += 1
-                    stats['B_atk']['B_wins']['avg_turns_played'] += res['turns_played']
-                case 0:
-                    stats['B_atk']['A_wins']['count'] += 1
-                    stats['B_atk']['A_wins']['avg_turns_played'] += res['turns_played']
-                case -1:
-                    stats['B_atk']['draw']['count'] += 1
-                    stats['B_atk']['draw']['avg_turns_played'] += res['turns_played']
+            if res['winner'] == 1:
+                stats['B_atk']['B_wins']['count'] += 1
+                stats['B_atk']['B_wins']['avg_turns_played'] += res['turns_played']
+            if res['winner'] == 0:
+                stats['B_atk']['A_wins']['count'] += 1
+                stats['B_atk']['A_wins']['avg_turns_played'] += res['turns_played']
+            if res['winner'] == -1:
+                stats['B_atk']['draw']['count'] += 1
+                stats['B_atk']['draw']['avg_turns_played'] += res['turns_played']
                     
         #divide total turns by number of games to get average turns for each category
         if stats['B_atk']['A_wins']['avg_turns_played'] > 0:
@@ -269,8 +267,6 @@ def eval_genomes(genomes, config):
     
     tournament_stats = tournament.play_tournament(players)
     
-    print(f"player scores: {len(tournament_stats['scores'])}")
-
     for i, genome_tuple in enumerate(genomes):
         genome_tuple[1].fitness = tournament_stats['scores'][i]
         
@@ -278,7 +274,6 @@ def eval_genomes(genomes, config):
     print(f"Number of attacker victories: {tournament_stats['attacker_win_count']}")
     print(f"Number of defender victories: {tournament_stats['defender_win_count']}")
     print(f"Number of draws: {tournament_stats['draw_count']}")
-
 
 def run(config_file):
     # Load configuration.
@@ -293,25 +288,61 @@ def run(config_file):
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    # p.add_reporter(neat.Checkpointer(5))
+    p.add_reporter(neat.Checkpointer(10))
     
-    basic_player = p.run(eval_genomes, 1)
+    basic_player = p.run(eval_genomes, 5)
 
-    # Run for up to n generations.
-    surviving_player = p.run(eval_genomes, 100)
+    # # Run for up to n generations.
+    # surviving_player = p.run(eval_genomes, 100)
 
-    # Display the winning genome.
-    print('\nBest genome:\n{!s}'.format(surviving_player))
+    # # Display the winning genome.
+    # print('\nBest genome:\n{!s}'.format(surviving_player))
 
-    # Show output of the most fit genome against training data.
-    print('\nOutput:')
-    surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
-    basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
-    dump(surviving_net,open("best.pickle", "wb"))
+    # # Show output of the most fit genome against training data.
+    # print('\nOutput:')
+    # surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
+    # basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
+    # dump(surviving_net,open("best.pickle", "wb"))
     
-    print("= = = Gen 1 winner (A) VS Gen 100 winner (B) = = =")
-    tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    tournament.compare_2_individuals(basic_net, surviving_net)
+    # print("= = = Gen 1 winner (A) VS Gen 100 winner (B) = = =")
+    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    # tournament.compare_2_individuals(basic_net, surviving_net)
+
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
+    # p.run(eval_genomes, 10)
+
+def run(config_file):
+    # Load configuration.
+    config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                         neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                         config_file)
+
+    # Create the population, which is the top-level object for a NEAT run.
+    p = neat.Population(config)
+
+    # Add a stdout reporter to show progress in the terminal.
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    p.add_reporter(neat.Checkpointer(10))
+    
+    basic_player = p.run(eval_genomes, 5)
+
+    # # Run for up to n generations.
+    # surviving_player = p.run(eval_genomes, 100)
+
+    # # Display the winning genome.
+    # print('\nBest genome:\n{!s}'.format(surviving_player))
+
+    # # Show output of the most fit genome against training data.
+    # print('\nOutput:')
+    # surviving_net = neat.nn.FeedForwardNetwork.create(surviving_player, config)
+    # basic_net = neat.nn.FeedForwardNetwork.create(basic_player, config)
+    # dump(surviving_net,open("best.pickle", "wb"))
+    
+    # print("= = = Gen 1 winner (A) VS Gen 100 winner (B) = = =")
+    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    # tournament.compare_2_individuals(basic_net, surviving_net)
 
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-4')
     # p.run(eval_genomes, 10)
