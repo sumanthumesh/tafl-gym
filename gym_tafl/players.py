@@ -54,6 +54,7 @@ class Player():
             #make copy of current board to test each move on
             currBoardCopy = np.copy(board)
             self.game.alt_apply_move(currBoardCopy, move)
+            self.game.decrement_no_capture()
 
             #network input is 49 ints from current board state + 8 ints representing last moves + 1 int representing current role
             networkInput = np.append(currBoardCopy.flatten(), last_moves_copy[-7:] + [move])

@@ -1,0 +1,53 @@
+= = = Gen 10 winner (A) VS Gen 718 winner (B) = = =
+
+Matches won by A: 7 / 100
+ - Average turns played: 48.5
+Matches won by B: 85 / 100
+ - Average turns played: 26.315315315315317
+Matches ending in draw: 8 / 100
+ - Average turns played: 16.0
+
+ * * * When A was attacker * * *
+
+Matches won by A: 5 / 50
+ - Average turns played: 39.0
+Matches won by B: 37 / 50
+ - Average turns played: 31.2972972972973
+Matches ending in draw: 8 / 50
+ - Average turns played: 32.0
+
+ * * * When B was attacker * * *
+
+Matches won by A: 2 / 50
+ - Average turns played: 58.0
+Matches won by B: 48 / 50
+ - Average turns played: 21.333333333333332
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+
+ = = = Gen 1 winner (A) VS Gen 718 winner (B) = = =
+
+Matches won by A: 6 / 100
+ - Average turns played: 54.5
+Matches won by B: 93 / 100
+ - Average turns played: 12.103896103896105
+Matches ending in draw: 1 / 100
+ - Average turns played: 75.0
+
+ * * * When A was attacker * * *
+
+Matches won by A: 5 / 50
+ - Average turns played: 47.0
+Matches won by B: 44 / 50
+ - Average turns played: 10.636363636363637
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+
+ * * * When B was attacker * * *
+
+Matches won by A: 1 / 50
+ - Average turns played: 62.0
+Matches won by B: 49 / 50
+ - Average turns played: 13.571428571428571
+Matches ending in draw: 0 / 50
+ - Average turns played: 0

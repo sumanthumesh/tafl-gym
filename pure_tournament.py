@@ -96,6 +96,7 @@ class PureTournament():
         player2.set_role(DEF)
         board = np.zeros((self.game.n_rows,self.game.n_cols)) 
         self.game.fill_board(board)
+        self.game.reset_game()
 
         last_moves = []
 
@@ -107,12 +108,12 @@ class PureTournament():
             #This is temporary fix for when a player doesn't get any legal moves generated... IDK why this happens
             #Game gets ended and opponent wins.
             if move is None:
-                return {'winner': opponent, 'turns_played': turn + 1}
+                return {'winner': opponent, 'turns_played': turn}
 
             #make the move and return winner if move wins game
             result = self.game.alt_apply_move(board, move)
             if result['game_over']:
-                return {'winner': player.get_role(), 'turns_played': turn + 1}
+                return {'winner': result['winner'], 'turns_played': turn + 1}
             
             #check for endgame. IDK if it's inefficient but last_moves are converted into space representation for this.
             result = self.game.check_endgame(
@@ -279,7 +280,7 @@ def eval_genomes(genomes, config):
     for i, genome_tuple in enumerate(genomes):
         players.append((i, Player(neat.nn.FeedForwardNetwork.create(genome_tuple[1], config), game, epsilon=0.1)))
     
-    tournament = PureTournament(game=game, bias_weights={'atk':1.5, 'def':1})
+    tournament = PureTournament(game=game, bias_weights={'atk':1.25, 'def':1})
     
     tournament_stats = tournament.play_tournament(players)
     
@@ -299,11 +300,11 @@ def run(config_file):
 
     # Create the population, which is the top-level object for a NEAT run.
     #NOTE: use this to start population from scratch!!!
-    # p = neat.Population(config)
+    p = neat.Population(config)
 
-    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-553')
 
-    #NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
+    # NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
     # p.add_reporter(neat.StdOutReporter(True))
     # stats = neat.StatisticsReporter()
@@ -317,16 +318,18 @@ def run(config_file):
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
 
     # NOTE: Use this line to load a certain checkpoint to be one of the 2 players
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
-    genome322 = p.run(eval_genomes, 1)
-    player322 = neat.nn.FeedForwardNetwork.create(genome322, config)
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-553')
-    genome553 = p.run(eval_genomes, 1)
-    player553 = neat.nn.FeedForwardNetwork.create(genome553, config)
+    genA = 1
+    genB = 718
+    # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genA}')
+    genomeA = p.run(eval_genomes, 1)
+    playerA = neat.nn.FeedForwardNetwork.create(genomeA, config)
+    p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genB}')
+    genomeB = p.run(eval_genomes, 1)
+    playerB = neat.nn.FeedForwardNetwork.create(genomeB, config)
     
-    print("= = = Gen 322 winner (A) VS Gen 553 winner (B) = = =")
+    print(f"= = = Gen {genA} winner (A) VS Gen {genB} winner (B) = = =")
     tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    tournament.compare_2_individuals(player322, player553)
+    tournament.compare_2_individuals(playerA, playerB, n=100)
 
     #NOTE: Ignore this
     # # Display the winning genome.

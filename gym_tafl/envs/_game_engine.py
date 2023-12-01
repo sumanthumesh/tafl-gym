@@ -77,6 +77,12 @@ class GameEngine:
         self.king_captured_with_two_pieces_except_near_or_on_throne = variant_config['KING CAPTURE'].getboolean('king_captured_with_two_pieces_except_near_or_on_throne')
         self.king_captured_with_four_pieces = variant_config['KING CAPTURE'].getboolean('king_captured_with_four_pieces')
 
+    def reset_game(self):
+        self.no_capture_turns_counter = 0
+
+    def decrement_no_capture(self):
+        self.no_capture_turns_counter -= 1
+
     def fill_board(self, board: np.array):
         char_to_tile = {
             'a': ATTACKER,
