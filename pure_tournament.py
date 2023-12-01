@@ -318,18 +318,18 @@ def run(config_file):
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
 
     # NOTE: Use this line to load a certain checkpoint to be one of the 2 players
-    genA = 1
-    genB = 718
-    # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genA}')
-    genomeA = p.run(eval_genomes, 1)
-    playerA = neat.nn.FeedForwardNetwork.create(genomeA, config)
-    p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genB}')
-    genomeB = p.run(eval_genomes, 1)
-    playerB = neat.nn.FeedForwardNetwork.create(genomeB, config)
+    # genA = 1
+    # genB = 718
+    # # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genA}')
+    # genomeA = p.run(eval_genomes, 1)
+    # playerA = neat.nn.FeedForwardNetwork.create(genomeA, config)
+    # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genB}')
+    # genomeB = p.run(eval_genomes, 1)
+    # playerB = neat.nn.FeedForwardNetwork.create(genomeB, config)
     
-    print(f"= = = Gen {genA} winner (A) VS Gen {genB} winner (B) = = =")
-    tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    tournament.compare_2_individuals(playerA, playerB, n=100)
+    # print(f"= = = Gen {genA} winner (A) VS Gen {genB} winner (B) = = =")
+    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    # tournament.compare_2_individuals(playerA, playerB, n=100)
 
     #NOTE: Ignore this
     # # Display the winning genome.
