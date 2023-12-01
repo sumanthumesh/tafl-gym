@@ -306,13 +306,13 @@ def run(config_file):
 
     # NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
-    # p.add_reporter(neat.StdOutReporter(True))
-    # stats = neat.StatisticsReporter()
-    # p.add_reporter(stats)
-    # #checkpoint every 25 generations or 20 minutes - whichever happens first
-    # p.add_reporter(neat.Checkpointer(25, 1200))
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    #checkpoint every 25 generations or 20 minutes - whichever happens first
+    p.add_reporter(neat.Checkpointer(25, 1200))
     
-    # p.run(eval_genomes, 1000)
+    p.run(eval_genomes, 1000)
 
     #NOTE: This is code for loading 2 checkpoints and getting their best genomes to compete...
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
