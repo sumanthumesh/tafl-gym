@@ -334,3 +334,33 @@ class GameEngine:
             self.apply_move(board,decimal_to_space(move,self.n_rows,self.n_cols))
             #if 
         return board
+    
+    def distance(self,a:tuple[int],b:tuple[int])->int:
+        '''
+        Return the min number of moves you need to make to move kind from a to b
+        '''
+        dx = abs(a[0]-b[0])
+        dy = abs(a[1]-b[1])
+        return min(dx,dy) + abs(dx-dy)
+
+    def heuristic1(self,board)->int:
+        '''
+        Takes a board state as input and returns an integer that gives the distance of the king from the closest corner
+        '''
+        #Find position of the king
+        if KING not in board:
+            return 0
+        indices = np.where(board == KING)
+        king_pos = (indices[0],indices[1])
+        #Calculate its distance from the four corners
+        dist = []
+        dist.append(self.distance(king_pos,(0,0))) #Top left
+        dist.append(self.distance(king_pos,(self.n_rows-1,0))) #Top right
+        dist.append(self.distance(king_pos,(0,self.n_cols-1))) #Bottom left
+        dist.append(self.distance(king_pos,(self.n_rows-1,self.n_cols-1))) #Bottom right
+        #Simple assertion
+        if min(dist) < 0:
+            print(f"Distance cannot be -ve")
+            exit()
+        #Return the minimum distance to the corners
+        return min(dist)

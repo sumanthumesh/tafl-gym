@@ -299,34 +299,34 @@ def run(config_file):
 
     # Create the population, which is the top-level object for a NEAT run.
     #NOTE: use this to start population from scratch!!!
-    # p = neat.Population(config)
+    p = neat.Population(config)
 
     # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
 
     #NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
-    # p.add_reporter(neat.StdOutReporter(True))
-    # stats = neat.StatisticsReporter()
-    # p.add_reporter(stats)
-    # #checkpoint every 25 generations or 20 minutes - whichever happens first
-    # p.add_reporter(neat.Checkpointer(25, 1200))
+    p.add_reporter(neat.StdOutReporter(True))
+    stats = neat.StatisticsReporter()
+    p.add_reporter(stats)
+    #checkpoint every 25 generations or 20 minutes - whichever happens first
+    p.add_reporter(neat.Checkpointer(25, 1200))
     
-    # p.run(eval_genomes, 1000)
+    p.run(eval_genomes, 1000)
 
     #NOTE: This is code for loading 2 checkpoints and getting their best genomes to compete...
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
 
     # NOTE: Use this line to load a certain checkpoint to be one of the 2 players
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
-    genome322 = p.run(eval_genomes, 1)
-    player322 = neat.nn.FeedForwardNetwork.create(genome322, config)
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-553')
-    genome553 = p.run(eval_genomes, 1)
-    player553 = neat.nn.FeedForwardNetwork.create(genome553, config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-322')
+    # genome322 = p.run(eval_genomes, 1)
+    # player322 = neat.nn.FeedForwardNetwork.create(genome322, config)
+    # p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-553')
+    # genome553 = p.run(eval_genomes, 1)
+    # player553 = neat.nn.FeedForwardNetwork.create(genome553, config)
     
-    print("= = = Gen 322 winner (A) VS Gen 553 winner (B) = = =")
-    tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    tournament.compare_2_individuals(player322, player553)
+    # print("= = = Gen 322 winner (A) VS Gen 553 winner (B) = = =")
+    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    # tournament.compare_2_individuals(player322, player553)
 
     #NOTE: Ignore this
     # # Display the winning genome.
