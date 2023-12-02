@@ -204,30 +204,7 @@ def check_threefold_repetition(last_moves: List[Tuple[int, int, int, int]], last
         return False
     else:
         return ((last_move == last_moves[4]) and
-                (last_move[3:] == last_moves[0][3:]) and
-                last_moves[7] == last_moves[3] and
-                last_moves[6] == last_moves[2] and
-                last_moves[5] == last_moves[1])
-
-# Current State has to have the same From/To as the one four moves before (-4) and the same To as the one eight
-# moves prior (-8). The -1 move has to have the same from/to as the -5, the -2 as the -6 and the -3 as the -7
-def check_threefold_repetition_int(prev_moves: List[int], best_move: int, rows:int, cols:int):
-    """
-    Check for the threefold repetition rule.
-    From Fellhuhn's Hnefatafl app: the last move has to be the same as the one four moves (-4) before and with the same
-    destination tile as the one eight moves prior (-8). The (-1) move has to be the same as the (-5), the (-2) as the
-    (-6) and the (-3) as the (-7)
-    :param last_moves: The last move that have been played
-    :param last_move: A queue with the latest moves
-    :return: True if the threefold repetition rule is satisfied, False otherwise
-    """
-    last_moves = [decimal_to_space(x,rows,cols) for x in prev_moves]
-    last_move = decimal_to_space(best_move,rows,cols)
-    if len(last_moves) < 8:
-        return False
-    else:
-        return ((last_move == last_moves[4]) and
-                (last_move[3:] == last_moves[0][3:]) and
+                (last_move[2:] == last_moves[0][2:]) and
                 last_moves[7] == last_moves[3] and
                 last_moves[6] == last_moves[2] and
                 last_moves[5] == last_moves[1])
