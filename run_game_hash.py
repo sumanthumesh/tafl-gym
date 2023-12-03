@@ -2,6 +2,7 @@ import os
 import numpy as np
 from gym_tafl.envs._game_engine import *
 from gym_tafl.players import Player
+from random import random, choice
 import neat
 
 class HashTournament():
@@ -9,124 +10,23 @@ class HashTournament():
     May the best viking chess bot win
     """
 
-    def __init__(self, game, turn_limit=150, game_scores={'win': 1, 'draw':0, 'loss':-1}) -> None:
-        self.game = game
+    def __init__(self, turn_limit=150) -> None:
         self.turn_limit = turn_limit
-        self.game_scores = game_scores
         self.state_table = {}
+        self.epsilon = 0.1
 
     def run_tournament(self, players, config):
         # round robin tourney
-        # res = self.run_game(players[0], players[1], config)
         for idxA, playerA in enumerate(players):
             for idxB, playerB in enumerate(players[idxA + 1:]):
                 #don't let players play against themselves
                 if idxA == idxB:
                     continue
                 #play 2 games so each player can play both attacker and defender
-                # print(f"Game: Player {idxA} VS {idxB}")
                 res = self.run_game(playerA, playerB, config)
                 # print(res)
                 # self.update_scores(res, idxA, idxB)
-
-    """
-    def run_game(self, player1, player2):
-        '''
-        Function takes in two genomes and plays the game with these two
-        For each new state reached, it updates a hash table with the state, the previous moves and current player
-        Once the game ends, it increments a counter for each state to show if it is a win, loss or draw
-        player1 is ATK and player2 is DEF
-        '''
-
-        #Intialize board
-        board = np.zeros((self.game.n_rows, self.game.n_cols)) 
-        self.game.fill_board(board)
-        prev_moves = []
-
-        #Run game till endgame or 150 moves
-        num_steps=150
-        for step in range(1000):
-            player = ATK if step % 2 == 0 else DEF
-            net = player1.net if step % 2 == 0 else player2.net
-
-            #Get all legal moves for current state
-            moves = self.game.legal_moves(board, player)
-            
-            # For every move, find the next state and check its value from our genome
-            temp_player = Player(1, net, self.game, step % 2 == 0)
-            best_move = temp_player.choose_move(board, moves)
-
-            '''
-            #For every move, find the next state and check its value from our genome
-            best_move = moves[0]
-            best_value = [-100]
-            for idx, move in enumerate(moves):
-                temp_move = decimal_to_space(move, self.game.n_rows, self.game.n_cols)
-                temp_board = board.copy()
-                self.game.apply_move(temp_board,temp_move)
-                #Check the value that this new temp_board state gets from our genome
-                if len(prev_moves) < 8:
-                    padded_moves = [0]*(8-len(prev_moves)) + prev_moves
-                else:
-                    padded_moves = prev_moves[-8:]
-                net_inp = temp_board.flatten().tolist() + padded_moves + [player]
-                # print(f"{step} {idx}")
-                # print(f"{temp_board}")
-                # print(f"{padded_moves}")
-                # print(f"{player}\n")
-                temp_value = net.activate(net_inp)
-                #Update best move and value
-                if temp_value[0] > best_value[0]:
-                    best_value = temp_value
-                    best_move = move
-            '''
-            
-            #Keep all the moves that are run on this game, we will need it to populate the hash table
-            prev_moves.append(best_move)
-
-            #Apply the best move on the board
-            best_move_tuple = decimal_to_space(best_move, self.game.n_rows, self.game.n_cols)
-            res = self.game.apply_move(board, best_move_tuple)
-            if res.get('game_over') == True:
-                num_steps = step
-                break
-
-        #Check endgame scenario
-        end = self.game.check_endgame(prev_moves[-8:], best_move_tuple, player, step)
-        if end['winner'] != -1:
-            print(end)
-        #Set the increment values [atk_win, draw, def_win]
-        if end.get('winner') == ATK:
-            inc = [1,0,0]
-        elif end.get('winner') == DEF:
-            inc = [0,0,1]
-        elif end.get('winner') == DRAW:
-            inc = [0,1,0]
-        else:
-            inc = [0,0,0]
-
-        print(f"Game ended after {num_steps} steps")
-        print(f"{inc}")
-
-        #Go through each and every state we encountered during the game and apply the correct increments
-        new_board = np.zeros((self.game.n_rows, self.game.n_cols)) 
-        self.game.fill_board(new_board)
-        for idx,move in enumerate(prev_moves):
-            player = ATK if idx%2==0 else DEF
-            self.game.apply_move(new_board,decimal_to_space(move, self.game.n_rows, self.game.n_cols))
-            #Create our flattened list that we will send as input to network
-            net_inp = new_board.flatten().tolist() + prev_moves[idx:idx+8] + [player]
-
-            #Update in the hash table
-            tup_net_inp = tuple(net_inp)
-            if tup_net_inp not in self.state_table.keys():
-                self.state_table[tuple(net_inp)] = inc
-            else:
-                self.state_table[tuple(net_inp)][0] += inc[0]
-                self.state_table[tuple(net_inp)][1] += inc[1]
-                self.state_table[tuple(net_inp)][2] += inc[2]
-        # print(state_table)
-    """
+   
     def pad_prev_moves(self, prev_moves,size):
         '''
         Pad the prev moves list with correct number of 0s where needed
@@ -137,7 +37,7 @@ class HashTournament():
             padded_moves = prev_moves[-8:]
         return padded_moves
 
-    def run_game(self, player1,player2,config):
+    def run_game(self, player1, player2, config):
         '''
         Function takes in two genomes and plays the game with these two
         For each new state reached, it updates a hash table with the state, the previous moves and current player
@@ -151,7 +51,7 @@ class HashTournament():
         }
         #Create game engine
         game = GameEngine('gym_tafl/variants/custom.ini')
-        #Intialize board
+        #Initialize board
         board = np.zeros((game.n_rows,game.n_cols)) 
         game.fill_board(board)
         prev_moves = []
@@ -162,6 +62,7 @@ class HashTournament():
             net1 = neat.nn.FeedForwardNetwork.create(player1,config)        
             net2 = neat.nn.FeedForwardNetwork.create(player2,config)      
             net = net1 if step%2==0 else net2  
+
             #Get all legal moves for current state
             moves = game.legal_moves(board,player)
             #If current player has no legal moves, then we stop game right now
@@ -170,33 +71,33 @@ class HashTournament():
                 info['winner'] = ATK if player == DEF else DEF
                 info['reason'] = f"{player} Ran out of moves"
                 break
-            #For every move, find the next state and check its value from our genome
-            best_move = moves[0]
-            best_value = [-100]
-            #Variable to store the value from network for each move we consider
-            all_vals = []
-            for idx,move in enumerate(moves):
-                temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
-                temp_board = board.copy()
-                game.apply_move(temp_board,temp_move)
-                #Check the value that this new temp_board state gets from our genome
-                padded_moves = self.pad_prev_moves(prev_moves,8)
-                net_inp = temp_board.flatten().tolist() + padded_moves + [player]
 
-                if (len(net_inp)) < 58:
-                    print(f"{step} {idx}")
-                    print(f"{temp_board}")
-                    print(f"{padded_moves}")
-                    print(f"{player}\n")
-                temp_value = net.activate(net_inp)
-                all_vals.append(temp_value)
-            #Find move with highest value if current player is attacker, else find move with least value
-            best_value = max(all_vals) if player == ATK else min(all_vals)
-            best_move = moves[all_vals.index(best_value)]
-                #Update best move and value
-                # if temp_value[0] > best_value[0]:
-                #     best_value = temp_value
-                #     best_move = move
+            if random() < self.epsilon:
+                best_move = choice(moves)
+            else:
+                #For every move, find the next state and check its value from our genome
+                best_move = moves[0]
+                best_value = [-100]
+                #Variable to store the value from network for each move we consider
+                all_vals = []
+                for idx,move in enumerate(moves):
+                    temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
+                    temp_board = board.copy()
+                    game.apply_move(temp_board,temp_move)
+                    #Check the value that this new temp_board state gets from our genome
+                    padded_moves = self.pad_prev_moves(prev_moves,8)
+                    net_inp = temp_board.flatten().tolist() + padded_moves + [player]
+
+                    if (len(net_inp)) < 58:
+                        print(f"{step} {idx}")
+                        print(f"{temp_board}")
+                        print(f"{padded_moves}")
+                        print(f"{player}\n")
+                    temp_value = net.activate(net_inp)
+                    all_vals.append(temp_value)
+                #Find move with highest value if current player is attacker, else find move with least value
+                best_value = max(all_vals) if player == ATK else min(all_vals)
+                best_move = moves[all_vals.index(best_value)]
 
             #Check if we have 3 fold repitition
             threefold = check_threefold_repetition_int(prev_moves,best_move,game.n_rows,game.n_cols)
@@ -319,7 +220,7 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(5))
 
 
-    winner = p.run(eval_genomes, 10) # arbitrarily picking 100 generations for now
+    winner = p.run(eval_genomes, 1)
     log_file.close()
 
     # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
