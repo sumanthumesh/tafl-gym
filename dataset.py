@@ -108,47 +108,47 @@ def read_dataset(filepath):
     return state_table
 
 if __name__ == "__main__":
-    # file_ptr = open("dataset","w")
-    # atk_ctr = 0
-    # def_ctr = 0
-    # tie_ctr = 0
-    # state_table = dict()
-    # for i in range(10):
-    #     if i % 50 == 0:
-    #         print(f"Game: {i}")
-    #     #Run the game
-    #     res = run_game(150)
-    #     #Update the state table
-    #     update_state_table(state_table,res[0],res[1])
-    #     if res[0].get('game_over') == True:
-    #         write_to_file(res[0]['winner'],res[1])
-    #         if res[0]['winner'] == ATK:
-    #             atk_ctr += 1
-    #         elif res[0]['winner'] == DEF:
-    #             def_ctr += 1
-    #         else:
-    #             tie_ctr += 1
-    #     else:
-    #         write_to_file(DRAW,res[1])
-    #         tie_ctr += 1
-    # print(len(state_table))
-
-    # print(f"{atk_ctr}, {tie_ctr}, {def_ctr}")
-
-    # file_ptr.close()
-
-    # serializable_dict = {str(key): value for key, value in state_table.items()}
-
-    # with open("dataset.json","w") as file:
-    #     json.dump(serializable_dict,file,indent=4)        
-
-    with open("dataset.json") as file:
-        raw_dict = json.load(file)
-    
-    print(type(list(raw_dict.values())[0]))
-
+    file_ptr = open("dataset","w")
+    atk_ctr = 0
+    def_ctr = 0
+    tie_ctr = 0
     state_table = dict()
-    for key,value in raw_dict.items():
-        state_table[str_to_tuple(key)] = value
+    for i in range(100000):
+        if i % 50 == 0:
+            print(f"Game: {i}")
+        #Run the game
+        res = run_game(150)
+        #Update the state table
+        update_state_table(state_table,res[0],res[1])
+        if res[0].get('game_over') == True:
+            write_to_file(res[0]['winner'],res[1])
+            if res[0]['winner'] == ATK:
+                atk_ctr += 1
+            elif res[0]['winner'] == DEF:
+                def_ctr += 1
+            else:
+                tie_ctr += 1
+        else:
+            write_to_file(DRAW,res[1])
+            tie_ctr += 1
+    print(len(state_table))
 
-    print(state_table)    
+    print(f"{atk_ctr}, {tie_ctr}, {def_ctr}")
+
+    file_ptr.close()
+
+    serializable_dict = {str(key): value for key, value in state_table.items()}
+
+    with open("dataset.json","w") as file:
+        json.dump(serializable_dict,file,indent=4)        
+
+    # with open("dataset.json") as file:
+    #     raw_dict = json.load(file)
+    
+    # print(type(list(raw_dict.values())[0]))
+
+    # state_table = dict()
+    # for key,value in raw_dict.items():
+    #     state_table[str_to_tuple(key)] = value
+
+    # print(state_table)    
