@@ -96,6 +96,16 @@ def str_to_tuple(string:str) -> tuple[float]:
         l.append(float(s))
     return tuple(l)
 
+def read_dataset(filepath):
+    #Read filepath
+    with open(filepath) as file:
+        raw_dict = json.load(file)
+
+    state_table = dict()
+    for key,value in raw_dict.items():
+        state_table[str_to_tuple(key)] = value
+    
+    return state_table
 
 if __name__ == "__main__":
     # file_ptr = open("dataset","w")
