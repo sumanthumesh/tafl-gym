@@ -1,0 +1,527 @@
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-111 winner (B) = = =
+Matches won by A: 32 / 100
+ - Average turns played: 73.625
+Matches won by B: 50 / 100
+ - Average turns played: 70.06
+Matches ending in draw: 18 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 16 / 50
+ - Average turns played: 53.375
+Matches won by B: 25 / 50
+ - Average turns played: 72.72
+Matches ending in draw: 9 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 16 / 50
+ - Average turns played: 93.875
+Matches won by B: 25 / 50
+ - Average turns played: 67.4
+Matches ending in draw: 9 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-12 winner (B) = = =
+Matches won by A: 30 / 100
+ - Average turns played: 81.19642857142857
+Matches won by B: 63 / 100
+ - Average turns played: 71.7
+Matches ending in draw: 7 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 14 / 50
+ - Average turns played: 70.14285714285714
+Matches won by B: 35 / 50
+ - Average turns played: 68.4
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 16 / 50
+ - Average turns played: 92.25
+Matches won by B: 28 / 50
+ - Average turns played: 75.0
+Matches ending in draw: 6 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-129 winner (B) = = =
+Matches won by A: 33 / 100
+ - Average turns played: 66.70833333333334
+Matches won by B: 64 / 100
+ - Average turns played: 59.9
+Matches ending in draw: 3 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 9 / 50
+ - Average turns played: 49.0
+Matches won by B: 40 / 50
+ - Average turns played: 64.55
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 24 / 50
+ - Average turns played: 84.41666666666667
+Matches won by B: 24 / 50
+ - Average turns played: 55.25
+Matches ending in draw: 2 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-147 winner (B) = = =
+Matches won by A: 54 / 100
+ - Average turns played: 61.12352941176471
+Matches won by B: 36 / 100
+ - Average turns played: 70.55714285714285
+Matches ending in draw: 10 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 34 / 50
+ - Average turns played: 29.647058823529413
+Matches won by B: 15 / 50
+ - Average turns played: 68.4
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 20 / 50
+ - Average turns played: 92.6
+Matches won by B: 21 / 50
+ - Average turns played: 72.71428571428571
+Matches ending in draw: 9 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-165 winner (B) = = =
+Matches won by A: 33 / 100
+ - Average turns played: 77.46296296296296
+Matches won by B: 67 / 100
+ - Average turns played: 60.133399209486164
+Matches ending in draw: 0 / 100
+ - Average turns played: 0.0
+ * * * When A was attacker * * * 
+Matches won by A: 6 / 50
+ - Average turns played: 79.0
+Matches won by B: 44 / 50
+ - Average turns played: 60.13636363636363
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 27 / 50
+ - Average turns played: 75.92592592592592
+Matches won by B: 23 / 50
+ - Average turns played: 60.130434782608695
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-182 winner (B) = = =
+Matches won by A: 31 / 100
+ - Average turns played: 70.65714285714286
+Matches won by B: 64 / 100
+ - Average turns played: 53.54
+Matches ending in draw: 5 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 10 / 50
+ - Average turns played: 55.6
+Matches won by B: 39 / 50
+ - Average turns played: 52.0
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 21 / 50
+ - Average turns played: 85.71428571428571
+Matches won by B: 25 / 50
+ - Average turns played: 55.08
+Matches ending in draw: 4 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-198 winner (B) = = =
+Matches won by A: 55 / 100
+ - Average turns played: 56.05027173913044
+Matches won by B: 36 / 100
+ - Average turns played: 65.6875
+Matches ending in draw: 9 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 32 / 50
+ - Average turns played: 20.1875
+Matches won by B: 16 / 50
+ - Average turns played: 60.375
+Matches ending in draw: 2 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 23 / 50
+ - Average turns played: 91.91304347826087
+Matches won by B: 20 / 50
+ - Average turns played: 71.0
+Matches ending in draw: 7 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-215 winner (B) = = =
+Matches won by A: 52 / 100
+ - Average turns played: 53.4625
+Matches won by B: 42 / 100
+ - Average turns played: 64.93055555555556
+Matches ending in draw: 6 / 100
+ - Average turns played: 75.0
+ * * * When A was attacker * * * 
+Matches won by A: 32 / 50
+ - Average turns played: 27.625
+Matches won by B: 18 / 50
+ - Average turns played: 59.111111111111114
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 20 / 50
+ - Average turns played: 79.3
+Matches won by B: 24 / 50
+ - Average turns played: 70.75
+Matches ending in draw: 6 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-233 winner (B) = = =
+Matches won by A: 34 / 100
+ - Average turns played: 69.9584980237154
+Matches won by B: 57 / 100
+ - Average turns played: 63.236842105263165
+Matches ending in draw: 9 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 11 / 50
+ - Average turns played: 58.09090909090909
+Matches won by B: 38 / 50
+ - Average turns played: 70.10526315789474
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 23 / 50
+ - Average turns played: 81.82608695652173
+Matches won by B: 19 / 50
+ - Average turns played: 56.36842105263158
+Matches ending in draw: 8 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-251 winner (B) = = =
+Matches won by A: 60 / 100
+ - Average turns played: 56.14983164983165
+Matches won by B: 38 / 100
+ - Average turns played: 62.98179271708683
+Matches ending in draw: 2 / 100
+ - Average turns played: 75.0
+ * * * When A was attacker * * * 
+Matches won by A: 33 / 50
+ - Average turns played: 27.484848484848484
+Matches won by B: 17 / 50
+ - Average turns played: 63.05882352941177
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 27 / 50
+ - Average turns played: 84.81481481481481
+Matches won by B: 21 / 50
+ - Average turns played: 62.904761904761905
+Matches ending in draw: 2 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-26 winner (B) = = =
+Matches won by A: 50 / 100
+ - Average turns played: 77.23727422003284
+Matches won by B: 43 / 100
+ - Average turns played: 65.63852813852814
+Matches ending in draw: 7 / 100
+ - Average turns played: 75.0
+ * * * When A was attacker * * * 
+Matches won by A: 21 / 50
+ - Average turns played: 75.0952380952381
+Matches won by B: 22 / 50
+ - Average turns played: 70.18181818181819
+Matches ending in draw: 7 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 29 / 50
+ - Average turns played: 79.37931034482759
+Matches won by B: 21 / 50
+ - Average turns played: 61.095238095238095
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-269 winner (B) = = =
+Matches won by A: 29 / 100
+ - Average turns played: 80.67619047619047
+Matches won by B: 61 / 100
+ - Average turns played: 61.00323275862069
+Matches ending in draw: 10 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 15 / 50
+ - Average turns played: 68.06666666666666
+Matches won by B: 32 / 50
+ - Average turns played: 66.9375
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 14 / 50
+ - Average turns played: 93.28571428571429
+Matches won by B: 29 / 50
+ - Average turns played: 55.06896551724138
+Matches ending in draw: 7 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-286 winner (B) = = =
+Matches won by A: 30 / 100
+ - Average turns played: 74.2159090909091
+Matches won by B: 55 / 100
+ - Average turns played: 60.74839743589743
+Matches ending in draw: 15 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 8 / 50
+ - Average turns played: 56.25
+Matches won by B: 39 / 50
+ - Average turns played: 54.87179487179487
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 22 / 50
+ - Average turns played: 92.18181818181819
+Matches won by B: 16 / 50
+ - Average turns played: 66.625
+Matches ending in draw: 12 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-303 winner (B) = = =
+Matches won by A: 26 / 100
+ - Average turns played: 65.58333333333334
+Matches won by B: 69 / 100
+ - Average turns played: 60.33101045296168
+Matches ending in draw: 5 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 8 / 50
+ - Average turns played: 39.5
+Matches won by B: 41 / 50
+ - Average turns played: 55.80487804878049
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 18 / 50
+ - Average turns played: 91.66666666666667
+Matches won by B: 28 / 50
+ - Average turns played: 64.85714285714286
+Matches ending in draw: 4 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-321 winner (B) = = =
+Matches won by A: 37 / 100
+ - Average turns played: 59.62592592592593
+Matches won by B: 62 / 100
+ - Average turns played: 55.47272727272727
+Matches ending in draw: 1 / 100
+ - Average turns played: 75.0
+ * * * When A was attacker * * * 
+Matches won by A: 10 / 50
+ - Average turns played: 43.4
+Matches won by B: 40 / 50
+ - Average turns played: 54.4
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 27 / 50
+ - Average turns played: 75.85185185185185
+Matches won by B: 22 / 50
+ - Average turns played: 56.54545454545455
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-339 winner (B) = = =
+Matches won by A: 41 / 100
+ - Average turns played: 65.41534391534391
+Matches won by B: 59 / 100
+ - Average turns played: 67.12318840579711
+Matches ending in draw: 0 / 100
+ - Average turns played: 0.0
+ * * * When A was attacker * * * 
+Matches won by A: 14 / 50
+ - Average turns played: 53.57142857142857
+Matches won by B: 36 / 50
+ - Average turns played: 63.333333333333336
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 27 / 50
+ - Average turns played: 77.25925925925925
+Matches won by B: 23 / 50
+ - Average turns played: 70.91304347826087
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-355 winner (B) = = =
+Matches won by A: 32 / 100
+ - Average turns played: 69.03571428571428
+Matches won by B: 62 / 100
+ - Average turns played: 71.27478580171359
+Matches ending in draw: 6 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 4 / 50
+ - Average turns played: 49.0
+Matches won by B: 43 / 50
+ - Average turns played: 75.02325581395348
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 28 / 50
+ - Average turns played: 89.07142857142857
+Matches won by B: 19 / 50
+ - Average turns played: 67.52631578947368
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-371 winner (B) = = =
+Matches won by A: 28 / 100
+ - Average turns played: 76.4090909090909
+Matches won by B: 68 / 100
+ - Average turns played: 61.07302325581395
+Matches ending in draw: 4 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 6 / 50
+ - Average turns played: 69.0
+Matches won by B: 43 / 50
+ - Average turns played: 72.18604651162791
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 22 / 50
+ - Average turns played: 83.81818181818181
+Matches won by B: 25 / 50
+ - Average turns played: 49.96
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-388 winner (B) = = =
+Matches won by A: 29 / 100
+ - Average turns played: 74.61111111111111
+Matches won by B: 62 / 100
+ - Average turns played: 59.87938596491228
+Matches ending in draw: 9 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 9 / 50
+ - Average turns played: 65.22222222222223
+Matches won by B: 38 / 50
+ - Average turns played: 56.8421052631579
+Matches ending in draw: 3 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 20 / 50
+ - Average turns played: 84.0
+Matches won by B: 24 / 50
+ - Average turns played: 62.916666666666664
+Matches ending in draw: 6 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-406 winner (B) = = =
+Matches won by A: 32 / 100
+ - Average turns played: 62.765700483091784
+Matches won by B: 63 / 100
+ - Average turns played: 70.64347826086956
+Matches ending in draw: 5 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 9 / 50
+ - Average turns played: 49.44444444444444
+Matches won by B: 40 / 50
+ - Average turns played: 68.2
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 23 / 50
+ - Average turns played: 76.08695652173913
+Matches won by B: 23 / 50
+ - Average turns played: 73.08695652173913
+Matches ending in draw: 4 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-42 winner (B) = = =
+Matches won by A: 25 / 100
+ - Average turns played: 53.63095238095238
+Matches won by B: 63 / 100
+ - Average turns played: 53.111111111111114
+Matches ending in draw: 12 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 4 / 50
+ - Average turns played: 44.5
+Matches won by B: 45 / 50
+ - Average turns played: 45.111111111111114
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 21 / 50
+ - Average turns played: 62.76190476190476
+Matches won by B: 18 / 50
+ - Average turns played: 61.111111111111114
+Matches ending in draw: 11 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-59 winner (B) = = =
+Matches won by A: 33 / 100
+ - Average turns played: 66.42692307692309
+Matches won by B: 58 / 100
+ - Average turns played: 69.91379310344828
+Matches ending in draw: 9 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 20 / 50
+ - Average turns played: 52.7
+Matches won by B: 29 / 50
+ - Average turns played: 64.27586206896552
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 13 / 50
+ - Average turns played: 80.15384615384616
+Matches won by B: 29 / 50
+ - Average turns played: 75.55172413793103
+Matches ending in draw: 8 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-76 winner (B) = = =
+Matches won by A: 42 / 100
+ - Average turns played: 49.06763925729443
+Matches won by B: 53 / 100
+ - Average turns played: 62.51934523809524
+Matches ending in draw: 5 / 100
+ - Average turns played: 75.0
+ * * * When A was attacker * * * 
+Matches won by A: 29 / 50
+ - Average turns played: 25.82758620689655
+Matches won by B: 21 / 50
+ - Average turns played: 58.476190476190474
+Matches ending in draw: 0 / 50
+ - Average turns played: 0
+ * * * When B was attacker * * * 
+Matches won by A: 13 / 50
+ - Average turns played: 72.3076923076923
+Matches won by B: 32 / 50
+ - Average turns played: 66.5625
+Matches ending in draw: 5 / 50
+ - Average turns played: 150.0
+
+= = = heuristic-1-checkpoint-0 winner (A) VS C:\Users\jluo1\GitHub\tafl-gym\checkpoints_heuristic_1\neat-checkpoint-94 winner (B) = = =
+Matches won by A: 32 / 100
+ - Average turns played: 69.95887445887446
+Matches won by B: 60 / 100
+ - Average turns played: 60.28468899521531
+Matches ending in draw: 8 / 100
+ - Average turns played: 150.0
+ * * * When A was attacker * * * 
+Matches won by A: 11 / 50
+ - Average turns played: 57.72727272727273
+Matches won by B: 38 / 50
+ - Average turns played: 63.8421052631579
+Matches ending in draw: 1 / 50
+ - Average turns played: 150.0
+ * * * When B was attacker * * * 
+Matches won by A: 21 / 50
+ - Average turns played: 82.19047619047619
+Matches won by B: 22 / 50
+ - Average turns played: 56.72727272727273
+Matches ending in draw: 7 / 50
+ - Average turns played: 150.0
