@@ -306,30 +306,30 @@ def run(config_file):
 
     # NOTE: This stuff is for "training" population... don't use it when just comparing 2 players
     # Add a stdout reporter to show progress in the terminal.
-    p.add_reporter(neat.StdOutReporter(True))
-    stats = neat.StatisticsReporter()
-    p.add_reporter(stats)
-    #checkpoint every 25 generations or 20 minutes - whichever happens first
-    p.add_reporter(neat.Checkpointer(25, 1200))
+    # p.add_reporter(neat.StdOutReporter(True))
+    # stats = neat.StatisticsReporter()
+    # p.add_reporter(stats)
+    # #checkpoint every 25 generations or 20 minutes - whichever happens first
+    # p.add_reporter(neat.Checkpointer(25, 6000))
     
-    p.run(eval_genomes, 1000)
+    # p.run(eval_genomes, 1000)
 
     #NOTE: This is code for loading 2 checkpoints and getting their best genomes to compete...
     # With how neat is set up you need to run a single generation to get the best genome before having them compete
 
     # NOTE: Use this line to load a certain checkpoint to be one of the 2 players
-    # genA = 1
-    # genB = 718
-    # # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genA}')
-    # genomeA = p.run(eval_genomes, 1)
-    # playerA = neat.nn.FeedForwardNetwork.create(genomeA, config)
-    # p = neat.Checkpointer.restore_checkpoint(f'neat-checkpoint-{genB}')
-    # genomeB = p.run(eval_genomes, 1)
-    # playerB = neat.nn.FeedForwardNetwork.create(genomeB, config)
+    genAName = 'heuristic-1-checkpoint-406'
+    genBName = 'pure-checkpoint-399'
+    p = neat.Checkpointer.restore_checkpoint(genAName)
+    genomeA = p.run(eval_genomes, 1)
+    playerA = neat.nn.FeedForwardNetwork.create(genomeA, config)
+    p = neat.Checkpointer.restore_checkpoint(genBName)
+    genomeB = p.run(eval_genomes, 1)
+    playerB = neat.nn.FeedForwardNetwork.create(genomeB, config)
     
-    # print(f"= = = Gen {genA} winner (A) VS Gen {genB} winner (B) = = =")
-    # tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
-    # tournament.compare_2_individuals(playerA, playerB, n=100)
+    print(f"= = = {genAName} winner (A) VS {genBName} winner (B) = = =")
+    tournament = PureTournament(game=GameEngine('gym_tafl/variants/custom.ini'))
+    tournament.compare_2_individuals(playerA, playerB, n=100)
 
     #NOTE: Ignore this
     # # Display the winning genome.
