@@ -72,7 +72,7 @@ class HashTournament():
                 info['reason'] = f"{player} Ran out of moves"
                 break
 
-            if random() < self.epsilon:
+            if x < self.epsilon:
                 best_move = choice(moves)
             else:
                 #For every move, find the next state and check its value from our genome
@@ -174,10 +174,9 @@ def eval_genomes(genomes, config):
     tournament = HashTournament(game)
     tournament_state = tournament.run_tournament(ge, config)
 
-
     fit_vals = []
     wins = [0,0,0]
-    bias_factor = 100.0
+    bias_factor = 1.0
     for genome in ge:
         err = 0
         for key, values in tournament.state_table.items():
@@ -220,7 +219,7 @@ def run(config_file):
     p.add_reporter(neat.Checkpointer(5))
 
 
-    winner = p.run(eval_genomes, 1)
+    winner = p.run(eval_genomes, 50)
     log_file.close()
 
     # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
