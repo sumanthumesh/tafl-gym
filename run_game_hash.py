@@ -10,13 +10,24 @@ class HashTournament():
     May the best viking chess bot win
     """
 
-    def __init__(self, turn_limit=150) -> None:
+    def __init__(self, turn_limit=150, game_scores={'win': 1, 'draw':0, 'loss':-1}, epsilon = 0.05) -> None:
         self.turn_limit = turn_limit
         self.state_table = {}
-        self.epsilon = 0.1
+        self.win_record = [0,0,0]
+        self.epsilon = epsilon
+
+    def set_game(self,game):
+        self.game = game
 
     def run_tournament(self, players, config):
         # round robin tourney
+        # res = self.run_game(players[0], players[1], config)
+        # count = 0
+        # while True:
+        #     res = self.run_game(players[0],players[1],config)        
+        #     if res[0].get('game_over') == True and res[0].get('winner') == DEF:
+        #         print(f"Found DEF win")
+        #     count = count + 1
         for idxA, playerA in enumerate(players):
             for idxB, playerB in enumerate(players[idxA + 1:]):
                 #don't let players play against themselves
@@ -24,6 +35,7 @@ class HashTournament():
                     continue
                 #play 2 games so each player can play both attacker and defender
                 res = self.run_game(playerA, playerB, config)
+                res = self.run_game(playerB, playerA, config)
                 # print(res)
                 # self.update_scores(res, idxA, idxB)
    
@@ -55,9 +67,8 @@ class HashTournament():
         board = np.zeros((game.n_rows,game.n_cols)) 
         game.fill_board(board)
         prev_moves = []
-        #Run game till endgame or 150 moves
-        num_steps=150
-        for step in range(num_steps):
+        #Run game till endgame or turn_limit moves
+        for step in range(self.turn_limit):
             player = ATK if step%2==0 else DEF
             net1 = neat.nn.FeedForwardNetwork.create(player1,config)        
             net2 = neat.nn.FeedForwardNetwork.create(player2,config)      
@@ -71,8 +82,9 @@ class HashTournament():
                 info['winner'] = ATK if player == DEF else DEF
                 info['reason'] = f"{player} Ran out of moves"
                 break
+<<<<<<< HEAD
 
-            if x < self.epsilon:
+            if random() < self.epsilon:
                 best_move = choice(moves)
             else:
                 #For every move, find the next state and check its value from our genome
@@ -80,6 +92,15 @@ class HashTournament():
                 best_value = [-100]
                 #Variable to store the value from network for each move we consider
                 all_vals = []
+=======
+            #For every move, find the next state and check its value from our genome
+            best_move = moves[0]
+            best_value = []
+            #Variable to store the value from network for each move we consider
+            all_vals = []
+            move_select = random.choices(population=[True,False],weights=[1-self.epsilon,self.epsilon])
+            if move_select:
+>>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
                 for idx,move in enumerate(moves):
                     temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
                     temp_board = board.copy()
@@ -98,6 +119,12 @@ class HashTournament():
                 #Find move with highest value if current player is attacker, else find move with least value
                 best_value = max(all_vals) if player == ATK else min(all_vals)
                 best_move = moves[all_vals.index(best_value)]
+            else:
+                best_move = random.choice(moves)
+                #Update best move and value
+                # if temp_value[0] > best_value[0]:
+                #     best_value = temp_value
+                #     best_move = move
 
             #Check if we have 3 fold repitition
             threefold = check_threefold_repetition_int(prev_moves,best_move,game.n_rows,game.n_cols)
@@ -120,6 +147,8 @@ class HashTournament():
         #Consolidate the results
         if info.get('game_over') == False:
             inc = [0,1,0]
+            #We dont want to count the games which lead to no conclusion
+            return
         elif info.get('winner') == ATK:
             inc = [1,0,0]
         elif info.get('winner') == DEF:
@@ -162,6 +191,15 @@ class HashTournament():
                 self.state_table[tuple(net_inp)][1] += inc[1]
                 self.state_table[tuple(net_inp)][2] += inc[2]
         print(info)
+        return (info,prev_moves)
+
+def count_wins(state_table):
+    vals = [0,0,0]
+    for key,value in state_table.items():
+        vals[0] += value[0]
+        vals[1] += value[1]
+        vals[2] += value[2]
+    return vals
 
 def eval_genomes(genomes, config):
     game = GameEngine('gym_tafl/variants/custom.ini')
@@ -171,12 +209,20 @@ def eval_genomes(genomes, config):
         genome.fitness = 0
         ge.append(genome)
         
-    tournament = HashTournament(game)
+    # tournament = HashTournament(game)
+    global tournament
+    tournament.set_game(game)
+
     tournament_state = tournament.run_tournament(ge, config)
 
     fit_vals = []
     wins = [0,0,0]
+<<<<<<< HEAD
     bias_factor = 1.0
+=======
+    bias_factor = 100.0
+    counts = []
+>>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
     for genome in ge:
         err = 0
         for key, values in tournament.state_table.items():
@@ -186,7 +232,9 @@ def eval_genomes(genomes, config):
             # print(key)
             output = net.activate(key)
             # print(values)            
+            # print(counts)
             val = (values[0]-values[2])*bias_factor/sum(values)
+            counts.append(val)
             # print(output, val)
             wins[0] += values[0]
             wins[1] += values[1]
@@ -198,9 +246,10 @@ def eval_genomes(genomes, config):
         print(-err)
         fit_vals.append(-err)
         genome.fitness = -err
-    log_file.writelines(f"{sum(fit_vals)/len(fit_vals)}: {wins}\n")
+    log_file.writelines(f"{sum(fit_vals)/len(fit_vals)}: {count_wins(tournament.state_table)}\n")
     print(f"AVG FIT VAL {sum(fit_vals)/len(fit_vals)}")
     print(f"WINS {wins}")
+    print(values)
     return
 
 log_file = open("log","w")
@@ -211,6 +260,7 @@ def run(config_file):
                          config_file)
     
     p = neat.Population(config)
+    # p = neat.Checkpointer.restore_checkpoint('checkpoints/neat-checkpoint-47')
 
     # Report progress to console
     p.add_reporter(neat.StdOutReporter(True))
@@ -218,8 +268,15 @@ def run(config_file):
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(5))
 
+    #Create tournament
+    global tournament
+    tournament = HashTournament()
 
+<<<<<<< HEAD
     winner = p.run(eval_genomes, 50)
+=======
+    winner = p.run(eval_genomes, 100) # arbitrarily picking 100 generations for now
+>>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
     log_file.close()
 
     # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
