@@ -2,7 +2,7 @@ import os
 import numpy as np
 from gym_tafl.envs._game_engine import *
 from gym_tafl.players import Player
-from random import random, choice
+import random
 import neat
 
 class HashTournament():
@@ -136,7 +136,7 @@ class HashTournament():
         if info.get('game_over') == False:
             inc = [0,1,0]
             #We dont want to count the games which lead to no conclusion
-            return
+            # return
         elif info.get('winner') == ATK:
             inc = [1,0,0]
         elif info.get('winner') == DEF:
@@ -254,7 +254,7 @@ def run(config_file):
 
     #Create tournament
     global tournament
-    tournament = HashTournament()
+    tournament = HashTournament(epsilon=0.33)
 
     winner = p.run(eval_genomes, 50)
     log_file.close()
