@@ -82,13 +82,15 @@ class HashTournament():
                 info['winner'] = ATK if player == DEF else DEF
                 info['reason'] = f"{player} Ran out of moves"
                 break
-            #For every move, find the next state and check its value from our genome
-            best_move = moves[0]
-            best_value = []
-            #Variable to store the value from network for each move we consider
-            all_vals = []
-            move_select = random.choices(population=[True,False],weights=[1-self.epsilon,self.epsilon])
-            if move_select:
+
+            if random() < self.epsilon:
+                best_move = choice(moves)
+            else:
+                #For every move, find the next state and check its value from our genome
+                best_move = moves[0]
+                best_value = [-100]
+                #Variable to store the value from network for each move we consider
+                all_vals = []
                 for idx,move in enumerate(moves):
                     temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
                     temp_board = board.copy()
@@ -107,8 +109,6 @@ class HashTournament():
                 #Find move with highest value if current player is attacker, else find move with least value
                 best_value = max(all_vals) if player == ATK else min(all_vals)
                 best_move = moves[all_vals.index(best_value)]
-            else:
-                best_move = random.choice(moves)
                 #Update best move and value
                 # if temp_value[0] > best_value[0]:
                 #     best_value = temp_value
@@ -203,10 +203,9 @@ def eval_genomes(genomes, config):
 
     tournament_state = tournament.run_tournament(ge, config)
 
-
     fit_vals = []
     wins = [0,0,0]
-    bias_factor = 100.0
+    bias_factor = 1.0
     counts = []
     for genome in ge:
         err = 0
@@ -257,7 +256,7 @@ def run(config_file):
     global tournament
     tournament = HashTournament(epsilon=0.33)
 
-    winner = p.run(eval_genomes, 100) # arbitrarily picking 100 generations for now
+    winner = p.run(eval_genomes, 50)
     log_file.close()
 
     # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
