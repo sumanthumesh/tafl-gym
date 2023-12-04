@@ -82,7 +82,6 @@ class HashTournament():
                 info['winner'] = ATK if player == DEF else DEF
                 info['reason'] = f"{player} Ran out of moves"
                 break
-<<<<<<< HEAD
 
             if random() < self.epsilon:
                 best_move = choice(moves)
@@ -92,15 +91,6 @@ class HashTournament():
                 best_value = [-100]
                 #Variable to store the value from network for each move we consider
                 all_vals = []
-=======
-            #For every move, find the next state and check its value from our genome
-            best_move = moves[0]
-            best_value = []
-            #Variable to store the value from network for each move we consider
-            all_vals = []
-            move_select = random.choices(population=[True,False],weights=[1-self.epsilon,self.epsilon])
-            if move_select:
->>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
                 for idx,move in enumerate(moves):
                     temp_move = decimal_to_space(move,game.n_rows,game.n_cols)
                     temp_board = board.copy()
@@ -119,8 +109,6 @@ class HashTournament():
                 #Find move with highest value if current player is attacker, else find move with least value
                 best_value = max(all_vals) if player == ATK else min(all_vals)
                 best_move = moves[all_vals.index(best_value)]
-            else:
-                best_move = random.choice(moves)
                 #Update best move and value
                 # if temp_value[0] > best_value[0]:
                 #     best_value = temp_value
@@ -217,12 +205,8 @@ def eval_genomes(genomes, config):
 
     fit_vals = []
     wins = [0,0,0]
-<<<<<<< HEAD
     bias_factor = 1.0
-=======
-    bias_factor = 100.0
     counts = []
->>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
     for genome in ge:
         err = 0
         for key, values in tournament.state_table.items():
@@ -272,11 +256,7 @@ def run(config_file):
     global tournament
     tournament = HashTournament()
 
-<<<<<<< HEAD
     winner = p.run(eval_genomes, 50)
-=======
-    winner = p.run(eval_genomes, 100) # arbitrarily picking 100 generations for now
->>>>>>> 2b83c34ecdab9ff05cee2dab58bfb95a46db4b08
     log_file.close()
 
     # print('\nWinner winner chicken dinner:\n{!s}'.format(winner))
